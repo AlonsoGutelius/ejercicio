@@ -6,21 +6,23 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using ejercicio.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace ejercicio.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+       private readonly BuscoContext _context;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(BuscoContext context)
         {
-            _logger = logger;
+            _context= context;
         }
 
         public IActionResult Index()
         {
-            return View();
+             var productos= _context.Productos.Include(x => x.Categoria).Where(x =>x.FechaRegistro.AddDays(5) > DateTime.Now).ToList();
+            return View(productos);
         }
 
       
