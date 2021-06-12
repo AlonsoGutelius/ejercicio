@@ -1,5 +1,6 @@
 using System.Linq;
 using ejercicio.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
@@ -11,6 +12,7 @@ namespace ejercicio.Controllers
        public ProductoController(BuscoContext context){
            _context = context;
        }       
+       [Authorize]
        public IActionResult Registro(){
            ViewBag.Categorias = _context.Categorias.Select(x => new SelectListItem(x.Nombre, x.Id.ToString()));
            return View();
